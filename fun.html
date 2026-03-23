@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQUAD 3D | Fun Zone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>FUN ZONE</h1>
+    
+    <div class="file-panel">
+        <h3>🏆 #SQUAD3DPoseOff CONTEST</h3>
+        <p>1. Snap a pic of your Dummy 13.<br>2. Tag us on social media.<br>3. Win a Golden Armor set!</p>
+    </div>
+
+    <div class="file-panel" style="margin-top: 20px;">
+        <h3>🤖 LORE GENERATOR</h3>
+        <p id="lore-text">Click to reveal robot secrets...</p>
+        <button onclick="genLore()">DECRYPT LORE</button>
+    </div>
+
+    <script>
+        const lores = ["This unit once danced for 48 hours straight.", "Powered by recycled disco balls.", "Secretly dreams of being a toaster."];
+        function genLore() {
+            document.getElementById('lore-text').innerText = lores[Math.floor(Math.random()*lores.length)];
+        }
+    </script>
+    <br><button onclick="window.location.href='index.html'">BACK</button>
+</body>
+</html>
