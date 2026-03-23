@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQUAD 3D | Lab & History</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>THE STEALTH LAB</h1>
+    
+    <div class="file-panel" style="text-align:left; margin: 20px auto; width: 80%; border: 1px solid #00ffcc; padding: 20px;">
+        <h3>📜 OUR HISTORY</h3>
+        <p>The Dummy 13 started as an open-source project. SQUAD 3D evolved it by engineering a <b>Hybrid Build</b>: Transparent Blue PETG skeletons for strength, and Carbon Fiber (CF-PLA) armor for a "Diamond" finish.</p>
+        
+        <h3>🧪 MATERIAL SCIENCE</h3>
+        <p><b>PETG:</b> Used for joints. It's flexible so it doesn't snap during dance moves.</p>
+        <p><b>CF-PLA:</b> Used for armor. Infused with carbon fibers to be 3x stiffer than plastic.</p>
+    </div>
+
+    <div id="quiz-box" style="background: #111; padding: 20px; border-radius: 10px;">
+        <h3 id="q-text">QUIZ: What makes the armor so stiff?</h3>
+        <button onclick="quiz(true)">Carbon Fibers</button>
+        <button onclick="quiz(false)">Blue Paint</button>
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        function quiz(win) {
+            document.getElementById('feedback').innerText = win ? "CORRECT! Junior Engineer Status: ACTIVE." : "Try again, Scientist!";
+            document.getElementById('feedback').style.color = win ? "#00ffcc" : "red";
+        }
+    </script>
+    <br><button onclick="window.location.href='index.html'">BACK TO DOSSIER</button>
+</body>
+</html>
