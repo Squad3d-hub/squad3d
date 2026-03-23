@@ -1,32 +1,125 @@
-<model-viewer id="main-viewer" 
-              src="videos/Dan.glb" 
-              camera-controls 
-              auto-rotate 
-              autoplay
-              animation-name="*"
-              shadow-intensity="2">
-</model-viewer>
-
-<script>
-    const viewer = document.getElementById('main-viewer');
-    const audio = document.getElementById('audio-player');
-
-    function switchCharacter(name) {
-        // Update Model and Audio paths
-        viewer.src = `videos/${name}.glb`;
-        audio.src = `audio/${name}.mp3`;
-
-        // THE FIX: Wait for the model to load, then force animation to play
-        viewer.addEventListener('load', () => {
-            viewer.play(); 
-        }, { once: true });
-
-        // Play audio
-        audio.play().catch(e => console.log("Click a button to start audio"));
-    }
-</script>
-            
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Character Showcase</title>
     
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
+    <style>
+        body {
+            margin: 0;
+            background: #121212;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 { margin-bottom: 10px; font-weight: 300; letter-spacing: 2px; }
+
+        /* The 3D Window */
+        model-viewer {
+            width: 90%;
+            height: 60vh;
+            background-color: #1e1e1e;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Button Container */
+        .menu {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #333;
+            color: #00ffcc;
+            border: 2px solid #00ffcc;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #00ffcc;
+            color: #121212;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
+        }
+
+        .status-bar {
+            margin-top: 20px;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CHARACTER VIEWER</h1>
+
+    <model-viewer id="avatar" 
+                  src="videos/Dan.glb" 
+                  camera-controls 
+                  autoplay 
+                  animation-name="*" 
+                  shadow-intensity="1" 
+                  auto-rotate>
+    </model-viewer>
+
+    <div class="menu">
+        <button onclick="changeScene('Dan')">Dan</button>
+        <button onclick="changeScene('Dave')">Dave</button>
+        <button onclick="changeScene('Val')">Val</button>
+    </div>
+
+    <div class="status-bar" id="status">Select a name to load model and music</div>
+
+    <audio id="music-player"></audio>
+
+    <script>
+        const viewer = document.getElementById('avatar');
+        const audio = document.getElementById('music-player');
+        const status = document.getElementById('status');
+
+        function changeScene(name) {
+            status.innerText = `Loading ${name}...`;
+
+            // Update 3D Model source
+            // Note: Using .glb for Val as .gld is likely a typo
+            viewer.src = `videos/${name}.glb`;
+
+            // Update Audio source
+            audio.src = `audio/${name}.mp3`;
+
+            // When the 3D model finishes loading...
+            viewer.addEventListener('load', () => {
+                // Play the 3D animation
+                viewer.play();
+                
+                // Play the Music
+                audio.play().catch(err => {
+                    status.innerText = "Click again to enable audio (Browser Security)";
+                });
+
+                status.innerText = `Now Playing: ${name}`;
+            }, { once: true });
+        }
+    </script>
+
+</body>
+</html>
     
             
