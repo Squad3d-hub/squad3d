@@ -72,27 +72,38 @@
 
     <audio id="player"></audio>
 
-    <script>
-        const v = document.getElementById('view');
-        const a = document.getElementById('player');
-        const s = document.getElementById('status');
+   <script>
+    const v = document.getElementById('view');
+    const a = document.getElementById('player');
+    const s = document.getElementById('status');
 
-        function playChar(name) {
-            s.innerText = "Loading " + name + "...";
-            
-            // Set paths
-            v.src = `videos/${name}.glb`;
-            a.src = `audio/${name}.mp3`;
+    function playChar(name) {
+        s.innerText = "Attempting to load: " + name;
+        
+        // Force the paths to be relative to the current folder
+        const modelPath = "videos/" + name + ".glb";
+        const audioPath = "audio/" + name + ".mp3";
 
-            // Wait for 3D model to load before playing
-            v.addEventListener('load', () => {
-                v.play(); // Play 3D animation
-                a.play().catch(err => {
-                    s.innerText = "Error: Click again to play sound.";
-                });
-                s.innerText = "Now playing: " + name;
-            }, { once: true });
-        }
+        console.log("Loading Model:", modelPath);
+        console.log("Loading Audio:", audioPath);
+
+        v.src = modelPath;
+        a.src = audioPath;
+
+        // Catch errors if the model fails to load
+        v.addEventListener('error', (error) => {
+            alert("CANNOT FIND FILE: Check if " + modelPath + " is spelled correctly on GitHub (Capital letters matter!)");
+            console.error(error);
+        }, { once: true });
+
+        v.addEventListener('load', () => {
+            s.innerText = "Model Loaded! Starting audio...";
+            v.play();
+            a.play().catch(err => {
+                s.innerText = "Click the screen to enable sound.";
+            });
+        }, { once: true });
+    }
     </script>
 </body>
 </html>
