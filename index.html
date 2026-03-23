@@ -6,44 +6,66 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
 <body>
-    <h1>SQUAD 3D LAB</h1>
-
+    <h1>SQUAD 3D DOSSIER</h1>
+    
     <div class="stem-card">
-        <h3>UNIT PREVIEW (3D)</h3>
         <model-viewer id="main-bot" 
             src="images/Dan.glb" 
-            auto-rotate camera-controls 
-            shadow-intensity="1" 
-            style="width: 100%; height: 350px;">
+            auto-rotate 
+            camera-controls 
+            shadow-intensity="1">
         </model-viewer>
-        
+
         <div id="file-panel">
             <h2 id="bot-name">UNIT: DAN</h2>
-            <p id="bot-lore">Carbon Fiber Armor. Specialized in Heavy Bass.</p>
+            <p id="bot-lore">Select a unit to decrypt files...</p>
+            POWER: <div class="stat-bar"><div id="p-bar" class="stat-fill" style="width: 90%;"></div></div>
+            FLOW: <div class="stat-bar"><div id="f-bar" class="stat-fill" style="width: 70%;"></div></div>
         </div>
     </div>
 
-    <div class="stem-card">
-        <h3>FIELD PERFORMANCE</h3>
-        <video width="100%" controls loop muted style="border-radius: 10px;">
-            <source src="video/performance.mp4" type="video/mp4">
-        </video>
-    </div>
-
-    <div class="stem-card">
-        <h3>SYSTEM AUDIO</h3>
-        <audio controls style="width: 100%;">
-            <source src="audio/squad-track.mp3" type="audio/mpeg">
-        </audio>
+    <div class="controls">
+        <button onclick="updateDossier('Dan')">DAN (Blue)</button>
+        <button onclick="updateDossier('Val')">VAL (Pink)</button>
+        <button onclick="updateDossier('Dave')">DAVE (Green)</button>
     </div>
 
     <nav>
         <button onclick="window.location.href='stem.html'">SCIENCE</button>
         <button onclick="window.location.href='shop.html'">STORE</button>
-        <button onclick="window.location.href='fun.html'">FUN</button>
+        <button onclick="window.location.href='song.html'">DANCE</button>
     </nav>
 
+    <script>
+        const botData = {
+            Dan: { name: "UNIT: DAN", p: "95%", f: "60%", class: "dan-filter", lore: "Blue PETG Frame. Heavy Bass specialist." },
+            Val: { name: "UNIT: VAL", p: "60%", f: "95%", class: "val-filter", lore: "Pink PETG Frame. Fluid Motion specialist." },
+            Dave: { name: "UNIT: DAVE", p: "85%", f: "80%", class: "dave-filter", lore: "Carbon Fiber Armor. Glitch-Core specialist." }
+        };
+
+        function updateDossier(unitName) {
+            const data = botData[unitName];
+            
+            // 1. Swap the actual 3D file
+            document.getElementById('main-bot').src = `images/${unitName}.glb`;
+            
+            // 2. Update the Text and Stats
+            document.getElementById('bot-name').innerText = data.name;
+            document.getElementById('bot-lore').innerText = data.lore;
+            document.getElementById('p-bar').style.width = data.p;
+            document.getElementById('f-bar').style.width = data.f;
+            
+            // 3. Apply the Glow Filter from style.css
+            document.getElementById('main-bot').className = data.class;
+        }
+
+        // SMART QR LOGIC
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const robot = urlParams.get('robot'); // Looks for ?robot=Dan
+            if (robot) updateDossier(robot);
+        };
+    </script>
 </body>
 </html>
-
     
