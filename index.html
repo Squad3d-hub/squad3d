@@ -1,5 +1,52 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-<h1>Hello world!!1 we are Dan, Davw and Val. we are squad 3d</h1>
+    <title>SQUAD 3D | Dossier</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
+<body>
+    <h1>UNIT DOSSIER</h1>
+    
+    <model-viewer id="main-bot" src="images/your_robot.glb" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+
+    <div id="file-panel" style="padding: 20px; border: 1px solid #00ffcc; display: inline-block; width: 80%;">
+        <h2 id="bot-name">SELECT A UNIT</h2>
+        <p id="bot-lore">Scan a QR code or select a member below.</p>
+        <div id="stats">
+            POWER: <div class="stat-bar"><div id="p-bar" class="stat-fill" style="width: 0%;"></div></div>
+            FLOW: <div class="stat-bar"><div id="f-bar" class="stat-fill" style="width: 0%;"></div></div>
+        </div>
+    </div>
+
+    <div class="controls" style="margin-top: 20px;">
+        <button onclick="updateDossier('dan')">DAN</button>
+        <button onclick="updateDossier('val')">VAL</button>
+        <button onclick="updateDossier('dave')">DAVE</button>
+    </div>
+
+    <script>
+        const botData = {
+            dan: { name: "UNIT: DAN (BASS)", p: "95%", f: "70%", class: "dan-filter", lore: "Reinforced PETG frame for heavy printing." },
+            val: { name: "UNIT: VAL (STEM)", p: "65%", f: "90%", class: "val-filter", lore: "High-precision joints for fluid motion." },
+            dave: { name: "UNIT: DAVE (GLITCH)", p: "80%", f: "85%", class: "dave-filter", lore: "Carbon Fiber armor with Neural-Link audio." }
+        };
+
+        function updateDossier(unit) {
+            const data = botData[unit];
+            document.getElementById('bot-name').innerText = data.name;
+            document.getElementById('bot-lore').innerText = data.lore;
+            document.getElementById('p-bar').style.width = data.p;
+            document.getElementById('f-bar').style.width = data.f;
+            document.getElementById('main-bot').className = data.class;
+        }
+
+        // THE SMART QR LOGIC
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const robot = urlParams.get('robot');
+            if (robot) updateDossier(robot);
+        };
+    </script>
+</body>
+</html>
